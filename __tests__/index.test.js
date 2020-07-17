@@ -1,7 +1,7 @@
 import gendiff from '../src/index.js';
 
 describe('testing gendiff', () => {
-  test('generating difference', () => {
+  test('plain json files comparison', () => {
     const result = `{
   host: hexlet.io
   + timeout: 50
