@@ -2,7 +2,8 @@
     "env": {
         "browser": true,
         "commonjs": true,
-        "es2020": true
+        "es2020": true,
+        "jest": true
     },
     "extends": [
         "airbnb-base"
@@ -11,6 +12,7 @@
         "ecmaVersion": 11
     },
     "rules": {
-        "no-console": 0
+        "no-console": 0,
+        "import/extensions": 0
     }
 }
