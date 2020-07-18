@@ -14,21 +14,26 @@ const gendiff = (path1, path2) => {
 
   const reducer = (accumulator, [key, value]) => {
     if (!_.has(configuration1, key)) {
-      return `${accumulator}  - ${key}: ${value}\n`;
+      accumulator.push(`- ${key}: ${value}`);
+      return accumulator;
     }
 
     if (!_.has(configuration2, key)) {
-      return `${accumulator}  + ${key}: ${value}\n`;
+      accumulator.push(`+ ${key}: ${value}`);
+      return accumulator;
     }
 
     if (configuration1[key] === value && configuration2[key] === value) {
-      return `${accumulator}  ${key}: ${value}\n`;
+      accumulator.push(`  ${key}: ${value}`);
+      return accumulator;
     }
 
-    return `${accumulator}  + ${key}: ${configuration1[key]}\n  - ${key}: ${value}\n`;
+    accumulator.push(`+ ${key}: ${configuration1[key]}`);
+    accumulator.push(`- ${key}: ${value}`);
+    return accumulator;
   };
 
-  return `{${entries.reduce(reducer, '\n')}}`;
+  return `{\n  ${entries.reduce(reducer, []).join('\n  ')}\n}`;
 };
 
 export default gendiff;
