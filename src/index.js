@@ -1,12 +1,9 @@
 import _ from 'lodash';
-import fs from 'fs';
+import parse from './parsers.js';
 
 const gendiff = (path1, path2) => {
-  const file1 = fs.readFileSync(path1);
-  const file2 = fs.readFileSync(path2);
-
-  const configuration1 = JSON.parse(file1);
-  const configuration2 = JSON.parse(file2);
+  const configuration1 = parse(path1);
+  const configuration2 = parse(path2);
 
   const allKeys = { ...configuration1, ...configuration2 };
 

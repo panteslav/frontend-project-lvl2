@@ -9,8 +9,12 @@ const result = `{
   - verbose: true
 }`;
 
-describe('testing gendiff', () => {
+describe('plain files test', () => {
   test('plain json files comparison', () => {
     expect(gendiff('__fixtures__/plain1.json', '__fixtures__/plain2.json')).toEqual(result);
+  });
+
+  test('plain yaml files comparison', () => {
+    expect(gendiff('__fixtures__/plain1.yml', '__fixtures__/plain2.yml')).toEqual(result);
   });
 });
