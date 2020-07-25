@@ -1,6 +1,6 @@
 import gendiff from '../src/index.js';
 
-const result = `{
+const plainTestsResult = `{
     host: hexlet.io
   + timeout: 50
   - timeout: 20
@@ -9,12 +9,12 @@ const result = `{
   - verbose: true
 }`;
 
-describe('plain files test', () => {
-  test('plain json files comparison', () => {
-    expect(gendiff('__fixtures__/plain1.json', '__fixtures__/plain2.json')).toEqual(result);
-  });
-
-  test('plain yaml files comparison', () => {
-    expect(gendiff('__fixtures__/plain1.yml', '__fixtures__/plain2.yml')).toEqual(result);
+describe('plain files tests', () => {
+  test.each([
+    ['__fixtures__/plain1.json', '__fixtures__/plain2.json'],
+    ['__fixtures__/plain1.yml', '__fixtures__/plain2.yml'],
+    ['__fixtures__/plain1.ini', '__fixtures__/plain2.ini'],
+  ])('plain files test №%#', (plain1, plain2) => {
+    expect(gendiff(plain1, plain2)).toEqual(plainTestsResult);
   });
 });
