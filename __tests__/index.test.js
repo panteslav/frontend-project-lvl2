@@ -1,35 +1,35 @@
 import gendiff from '../src/index.js';
 
 const plainTestsResult = `{
+  - follow: false
     host: hexlet.io
+  - proxy: 123.234.53.22
   - timeout: 50
   + timeout: 20
-  - proxy: 123.234.53.22
-  - follow: false
   + verbose: true
 }
 `;
 
 const nestedTestResult = `{
     common: {
+      + follow: false
         setting1: Value 1
       - setting2: 200
       - setting3: true
       + setting3: {
             key: value
         }
+      + setting4: blah blah
+      + setting5: {
+            key5: value5
+        }
         setting6: {
-            key: value
             doge: {
               - wow: too much
               + wow: so much
             }
+            key: value
           + ops: vops
-        }
-      + follow: false
-      + setting4: blah blah
-      + setting5: {
-            key5: value5
         }
     }
     group1: {
@@ -48,12 +48,12 @@ const nestedTestResult = `{
         }
     }
   + group3: {
-        fee: 100500
         deep: {
             id: {
                 number: 45
             }
         }
+        fee: 100500
     }
 }
 `;
