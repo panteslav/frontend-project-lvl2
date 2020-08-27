@@ -71,6 +71,107 @@ Property 'group1.nest' was updated. From [complex value] to 'str'
 Property 'group2' was removed
 Property 'group3' was added with value: [complex value]`;
 
+const nestedJSONResult = {
+  common: {
+    status: '=',
+    children: {
+      setting1: {
+        status: '=',
+        value1: 'Value 1',
+      },
+      setting2: {
+        status: '-',
+        value1: 200,
+      },
+      setting3: {
+        status: '≠',
+        value1: true,
+        value2: {
+          key: 'value',
+        },
+      },
+      setting6: {
+        status: '=',
+        children: {
+          key: {
+            status: '=',
+            value1: 'value',
+          },
+          doge: {
+            status: '=',
+            children: {
+              wow: {
+                status: '≠',
+                value1: 'too much',
+                value2: 'so much',
+              },
+            },
+          },
+          ops: {
+            status: '+',
+            value2: 'vops',
+          },
+        },
+      },
+      follow: {
+        status: '+',
+        value2: false,
+      },
+      setting4: {
+        status: '+',
+        value2: 'blah blah',
+      },
+      setting5: {
+        status: '+',
+        value2: {
+          key5: 'value5',
+        },
+      },
+    },
+  },
+  group1: {
+    status: '=',
+    children: {
+      baz: {
+        status: '≠',
+        value1: 'bas',
+        value2: 'bars',
+      },
+      foo: {
+        status: '=',
+        value1: 'bar',
+      },
+      nest: {
+        status: '≠',
+        value1: {
+          key: 'value',
+        },
+        value2: 'str',
+      },
+    },
+  },
+  group2: {
+    status: '-',
+    value1: {
+      abc: 12345,
+      deep: {
+        id: 45,
+      },
+    },
+  },
+  group3: {
+    status: '+',
+    value2: {
+      fee: 100500,
+      deep: {
+        id: {
+          number: 45,
+        },
+      },
+    },
+  },
+};
+
 const nestedPath1 = '__fixtures__/nested1.json';
 const nestedPath2 = '__fixtures__/nested2.json';
 
@@ -95,5 +196,12 @@ describe('nested files tests', () => {
 
   test('plain format test', () => {
     expect(gendiff(nestedPath1, nestedPath2, 'plain')).toEqual(nestedPlainResult);
+  });
+
+  test('JSON format test', () => {
+    // equal JSON objects would make the same strings
+    expect(JSON.stringify(gendiff(nestedPath1, nestedPath2, 'JSON'))).toEqual(
+      JSON.stringify(nestedJSONResult),
+    );
   });
 });
