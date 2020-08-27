@@ -10,5 +10,3 @@ program
   .description(description)
   .action((filepath1, filepath2) => console.log(gendiff(filepath1, filepath2, program.format)))
   .parse(process.argv);
-
-// console.log(program.format);
