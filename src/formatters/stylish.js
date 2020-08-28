@@ -7,7 +7,7 @@ const printValue = (value, indentSize) => {
     return `${value.toString()}\n`;
   }
 
-  const keys = Object.keys(value).sort();
+  const keys = Object.keys(value);
   const textIndent = _.repeat(' ', indentSize);
   const bracketIndent = _.repeat(' ', indentSize - BASE_INDENT_SIZE);
 
@@ -21,7 +21,7 @@ const printValue = (value, indentSize) => {
 
 const printTree = (tree, indentSize = BASE_INDENT_SIZE) => {
   let result = '';
-  const keys = Object.keys(tree).sort();
+  const keys = Object.keys(tree);
   const textIndent = _.repeat(' ', indentSize - 2);
   const bracketIndent = _.repeat(' ', indentSize - BASE_INDENT_SIZE);
 

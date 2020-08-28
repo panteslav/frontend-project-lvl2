@@ -16,7 +16,7 @@ const printValue = (value) => {
 const printTreeInPlain = (tree, previousKeys = '') => {
   let result = '';
 
-  const keys = Object.keys(tree).sort();
+  const keys = Object.keys(tree);
 
   keys.forEach((key) => {
     if (_.has(tree[key], 'children')) {

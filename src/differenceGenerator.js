@@ -12,7 +12,7 @@ const createSetOfAllKeys = (obj1, obj2) => {
 };
 
 const createDiffTree = (obj1, obj2) => {
-  const uniqueKeys = Array.from(createSetOfAllKeys(obj1, obj2));
+  const uniqueKeys = Array.from(createSetOfAllKeys(obj1, obj2)).sort();
   const result = {};
 
   uniqueKeys.forEach((key) => {
