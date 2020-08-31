@@ -11,27 +11,44 @@ const createSetOfAllKeys = (obj1, obj2) => {
   return allUniqueKeys;
 };
 
+const map = (obj1, obj2, key) => {
+  if (_.has(obj1, key) && !_.has(obj2, key)) {
+    return {
+      status: '-',
+      value1: obj1[key],
+    };
+  }
+
+  if (!_.has(obj1, key) && _.has(obj2, key)) {
+    return {
+      status: '+',
+      value2: obj2[key],
+    };
+  }
+
+  if (obj1[key] === obj2[key]) {
+    return {
+      status: '=',
+      value1: obj1[key],
+    };
+  }
+
+  if (obj1[key] !== obj2[key]) {
+    return {
+      status: '≠',
+      value1: obj1[key],
+      value2: obj2[key],
+    };
+  }
+
+  throw new Error('error while parsing objects');
+};
+
 const createDiffTree = (obj1, obj2) => {
   const uniqueKeys = Array.from(createSetOfAllKeys(obj1, obj2)).sort();
   const result = {};
 
   uniqueKeys.forEach((key) => {
-    if (_.has(obj1, key) && !_.has(obj2, key)) {
-      result[key] = {
-        status: '-',
-        value1: obj1[key],
-      };
-      return;
-    }
-
-    if (!_.has(obj1, key) && _.has(obj2, key)) {
-      result[key] = {
-        status: '+',
-        value2: obj2[key],
-      };
-      return;
-    }
-
     if (typeof obj1[key] === 'object' && typeof obj2[key] === 'object') {
       result[key] = {
         status: '=',
@@ -40,21 +57,7 @@ const createDiffTree = (obj1, obj2) => {
       return;
     }
 
-    if (obj1[key] === obj2[key]) {
-      result[key] = {
-        status: '=',
-        value1: obj1[key],
-      };
-      return;
-    }
-
-    if (obj1[key] !== obj2[key]) {
-      result[key] = {
-        status: '≠',
-        value1: obj1[key],
-        value2: obj2[key],
-      };
-    }
+    result[key] = map(obj1, obj2, key);
   });
 
   return result;
