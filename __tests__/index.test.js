@@ -1,187 +1,19 @@
 import gendiff from '../src/index.js';
-
-const plainTestsResult = `{
-  - follow: false
-    host: hexlet.io
-  - proxy: 123.234.53.22
-  - timeout: 50
-  + timeout: 20
-  + verbose: true
-}
-`;
-
-const nestedStylishResult = `{
-    common: {
-      + follow: false
-        setting1: Value 1
-      - setting2: 200
-      - setting3: true
-      + setting3: {
-            key: value
-        }
-      + setting4: blah blah
-      + setting5: {
-            key5: value5
-        }
-        setting6: {
-            doge: {
-              - wow: too much
-              + wow: so much
-            }
-            key: value
-          + ops: vops
-        }
-    }
-    group1: {
-      - baz: bas
-      + baz: bars
-        foo: bar
-      - nest: {
-            key: value
-        }
-      + nest: str
-    }
-  - group2: {
-        abc: 12345
-        deep: {
-            id: 45
-        }
-    }
-  + group3: {
-        deep: {
-            id: {
-                number: 45
-            }
-        }
-        fee: 100500
-    }
-}
-`;
-
-const nestedPlainResult = `
-Property 'common.follow' was added with value: false
-Property 'common.setting2' was removed
-Property 'common.setting3' was updated. From true to [complex value]
-Property 'common.setting4' was added with value: 'blah blah'
-Property 'common.setting5' was added with value: [complex value]
-Property 'common.setting6.doge.wow' was updated. From 'too much' to 'so much'
-Property 'common.setting6.ops' was added with value: 'vops'
-Property 'group1.baz' was updated. From 'bas' to 'bars'
-Property 'group1.nest' was updated. From [complex value] to 'str'
-Property 'group2' was removed
-Property 'group3' was added with value: [complex value]`;
-
-const nestedJSONResult = {
-  common: {
-    status: '=',
-    children: {
-      setting1: {
-        status: '=',
-        value1: 'Value 1',
-      },
-      setting2: {
-        status: '-',
-        value1: 200,
-      },
-      setting3: {
-        status: '≠',
-        value1: true,
-        value2: {
-          key: 'value',
-        },
-      },
-      setting6: {
-        status: '=',
-        children: {
-          key: {
-            status: '=',
-            value1: 'value',
-          },
-          doge: {
-            status: '=',
-            children: {
-              wow: {
-                status: '≠',
-                value1: 'too much',
-                value2: 'so much',
-              },
-            },
-          },
-          ops: {
-            status: '+',
-            value2: 'vops',
-          },
-        },
-      },
-      follow: {
-        status: '+',
-        value2: false,
-      },
-      setting4: {
-        status: '+',
-        value2: 'blah blah',
-      },
-      setting5: {
-        status: '+',
-        value2: {
-          key5: 'value5',
-        },
-      },
-    },
-  },
-  group1: {
-    status: '=',
-    children: {
-      baz: {
-        status: '≠',
-        value1: 'bas',
-        value2: 'bars',
-      },
-      foo: {
-        status: '=',
-        value1: 'bar',
-      },
-      nest: {
-        status: '≠',
-        value1: {
-          key: 'value',
-        },
-        value2: 'str',
-      },
-    },
-  },
-  group2: {
-    status: '-',
-    value1: {
-      abc: 12345,
-      deep: {
-        id: 45,
-      },
-    },
-  },
-  group3: {
-    status: '+',
-    value2: {
-      fee: 100500,
-      deep: {
-        id: {
-          number: 45,
-        },
-      },
-    },
-  },
-};
+import flatResult from '../__fixtures__/test_results/flatStylish.js';
+import nestedPlainResult from '../__fixtures__/test_results/nestedPlain.js';
+import nestedStylishResult from '../__fixtures__/test_results/nestedStylish.js';
+import nestedJSONResult from '../__fixtures__/test_results/nestedJSON.js';
 
 const nestedPath1 = '__fixtures__/nested1.json';
 const nestedPath2 = '__fixtures__/nested2.json';
 
-describe('plain files tests', () => {
+describe('flat files tests', () => {
   test.each([
-    ['__fixtures__/plain1.json', '__fixtures__/plain2.json'],
-    ['__fixtures__/plain1.yml', '__fixtures__/plain2.yml'],
-    ['__fixtures__/plain1.ini', '__fixtures__/plain2.ini'],
-  ])('plain files test №%#', (plain1Path1, plainPath2) => {
-    expect(gendiff(plain1Path1, plainPath2)).toEqual(plainTestsResult);
+    ['__fixtures__/flat1.json', '__fixtures__/flat2.json'],
+    ['__fixtures__/flat1.yml', '__fixtures__/flat2.yml'],
+    ['__fixtures__/flat1.ini', '__fixtures__/flat2.ini'],
+  ])('flat files test №%#', (flatPath1, flatPath2) => {
+    expect(gendiff(flatPath1, flatPath2)).toEqual(flatResult);
   });
 });
 
