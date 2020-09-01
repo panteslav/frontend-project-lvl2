@@ -11,37 +11,51 @@ const createSetOfAllKeys = (obj1, obj2) => {
   return allUniqueKeys;
 };
 
-const map = (obj1, obj2, key) => {
+const getKeyStatus = (key, obj1, obj2) => {
   if (_.has(obj1, key) && !_.has(obj2, key)) {
-    return {
-      status: '-',
-      value1: obj1[key],
-    };
+    return '-';
   }
 
   if (!_.has(obj1, key) && _.has(obj2, key)) {
-    return {
-      status: '+',
-      value2: obj2[key],
-    };
+    return '+';
   }
 
   if (obj1[key] === obj2[key]) {
-    return {
-      status: '=',
-      value1: obj1[key],
-    };
+    return '=';
   }
 
   if (obj1[key] !== obj2[key]) {
-    return {
-      status: '≠',
-      value1: obj1[key],
-      value2: obj2[key],
-    };
+    return '≠';
   }
+  throw new Error('error while defining key status');
+};
 
-  throw new Error('error while parsing objects');
+const map = (obj1, obj2, key) => {
+  switch (getKeyStatus(key, obj1, obj2)) {
+    case '-':
+      return {
+        status: '-',
+        value1: obj1[key],
+      };
+    case '+':
+      return {
+        status: '+',
+        value2: obj2[key],
+      };
+    case '=':
+      return {
+        status: '=',
+        value1: obj1[key],
+      };
+    case '≠':
+      return {
+        status: '≠',
+        value1: obj1[key],
+        value2: obj2[key],
+      };
+    default:
+      throw new Error('error while mapping');
+  }
 };
 
 const createDiffTree = (obj1, obj2) => {
@@ -54,10 +68,7 @@ const createDiffTree = (obj1, obj2) => {
         status: '=',
         children: createDiffTree(obj1[key], obj2[key]),
       };
-      return;
-    }
-
-    result[key] = map(obj1, obj2, key);
+    } else result[key] = map(obj1, obj2, key);
   });
 
   return result;
