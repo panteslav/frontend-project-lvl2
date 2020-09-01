@@ -21,12 +21,12 @@ You can use the utility to see the difference between two ini files
 ## Yaml configurational files
 
 You can use the utility to see the difference between two yaml files
-[![asciicast](https://asciinema.org/a/xGvnbvqImpcstpWUqDrZx3v0C.svg)](https://asciinema.org/a/xGvnbvqImpcstpWUqDrZx3v0C)
+[![asciicast](https://asciinema.org/a/Z0xEGJkd3irprGZ7viduJfStu.svg)](https://asciinema.org/a/Z0xEGJkd3irprGZ7viduJfStu)
 
 ## Default behavior
 
 Stylish format is a default behavior of the program
-[![asciicast](https://asciinema.org/a/Z0xEGJkd3irprGZ7viduJfStu.svg)](https://asciinema.org/a/Z0xEGJkd3irprGZ7viduJfStu)
+[![asciicast](https://asciinema.org/a/xGvnbvqImpcstpWUqDrZx3v0C.svg)](https://asciinema.org/a/xGvnbvqImpcstpWUqDrZx3v0C)
 
 ## Nested files in stylish format
 
