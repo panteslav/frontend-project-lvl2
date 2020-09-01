@@ -11,23 +11,24 @@ const createSetOfAllKeys = (obj1, obj2) => {
   return allUniqueKeys;
 };
 
+const isKeyRemoved = (key, obj1, obj2) => _.has(obj1, key) && !_.has(obj2, key);
+const isKeyAdded = (key, obj1, obj2) => !_.has(obj1, key) && _.has(obj2, key);
+const isValueEqual = (key, obj1, obj2) => obj1[key] === obj2[key];
+
 const getKeyStatus = (key, obj1, obj2) => {
-  if (_.has(obj1, key) && !_.has(obj2, key)) {
+  if (isKeyRemoved(key, obj1, obj2)) {
     return '-';
   }
 
-  if (!_.has(obj1, key) && _.has(obj2, key)) {
+  if (isKeyAdded(key, obj1, obj2)) {
     return '+';
   }
 
-  if (obj1[key] === obj2[key]) {
+  if (isValueEqual(key, obj1, obj2)) {
     return '=';
   }
 
-  if (obj1[key] !== obj2[key]) {
-    return '≠';
-  }
-  throw new Error('error while defining key status');
+  return '≠';
 };
 
 const map = (obj1, obj2, key) => {
