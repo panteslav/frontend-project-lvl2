@@ -21,17 +21,17 @@ You can use the utility to see the difference between two ini files
 ## Yaml configurational files
 
 You can use the utility to see the difference between two yaml files
-[![asciicast](https://asciinema.org/a/Z0xEGJkd3irprGZ7viduJfStu.svg)](https://asciinema.org/a/Z0xEGJkd3irprGZ7viduJfStu)
+[![asciicast](https://asciinema.org/a/xGvnbvqImpcstpWUqDrZx3v0C.svg)](https://asciinema.org/a/xGvnbvqImpcstpWUqDrZx3v0C)
 
 ## Default behavior
 
 Stylish format is a default behavior of the program
-[![asciicast](https://asciinema.org/a/xGvnbvqImpcstpWUqDrZx3v0C.svg)](https://asciinema.org/a/xGvnbvqImpcstpWUqDrZx3v0C)
+[![asciicast](https://asciinema.org/a/Xz3pVICzKh4u50pPis4o2tKrh.svg)](https://asciinema.org/a/Xz3pVICzKh4u50pPis4o2tKrh)
 
 ## Nested files in stylish format
 
 It can be specified explicitely with the special **-f (--format) stylish** option
-[![asciicast](https://asciinema.org/a/Xz3pVICzKh4u50pPis4o2tKrh.svg)](https://asciinema.org/a/Xz3pVICzKh4u50pPis4o2tKrh)
+[![asciicast](https://asciinema.org/a/Z0xEGJkd3irprGZ7viduJfStu.svg)](https://asciinema.org/a/Z0xEGJkd3irprGZ7viduJfStu)
 
 ## Nested files in plain format
 
