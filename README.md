@@ -6,7 +6,7 @@
 
 # Gendiff
 
-This utility is intended to represent difference between two configurational json, ini, yml files both flat and nested in a preferable output format, such as stylish, plain text and json. It works with absolute and relative paths to files.
+This utility is intended to represent difference between two configurational json, ini, yml files both flat and nested in a preferable output format, such as stylish, plain text and json. It works with absolute and relative file paths.
 
 ## JSON configurational files
 
