@@ -41,4 +41,4 @@ To represent the difference in plain format add **-f (--format) plain** option
 ## Nested files in JSON format
 
 To represent the difference in JSON format add **-f (--format) json** option
-[![asciicast](https://asciinema.org/a/G4ZTQHdFYYDH1LuYtGBSd6jgv.svg)](https://asciinema.org/a/G4ZTQHdFYYDH1LuYtGBSd6jgv)
+[![asciicast](https://asciinema.org/a/n41dUctz6cusXiPP9XIo77KoO.svg)](https://asciinema.org/a/n41dUctz6cusXiPP9XIo77KoO)
