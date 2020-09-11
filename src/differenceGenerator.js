@@ -50,31 +50,24 @@ const map = (obj1, obj2, key) => {
   }
 };
 
-const createSetOfAllKeys = (obj1, obj2) => {
-  const keys1 = Object.keys(obj1);
-  const keys2 = Object.keys(obj2);
-
-  const allUniqueKeys = new Set();
-  keys1.forEach((key) => allUniqueKeys.add(key));
-  keys2.forEach((key) => allUniqueKeys.add(key));
-
-  return allUniqueKeys;
-};
-
 const createDiffTree = (obj1, obj2) => {
-  const uniqueKeys = Array.from(createSetOfAllKeys(obj1, obj2)).sort();
-  const result = {};
+  const uniqueKeys = _.union(_.keys(obj1), _.keys(obj2));
+  const sortedUniqueKeys = Array.from(uniqueKeys).sort();
 
-  uniqueKeys.forEach((key) => {
+  const reducer = (accumulator, key) => {
     if (typeof obj1[key] === 'object' && typeof obj2[key] === 'object') {
-      result[key] = {
+      accumulator[key] = {
         status: '=',
         children: createDiffTree(obj1[key], obj2[key]),
       };
-    } else result[key] = map(obj1, obj2, key);
-  });
+    } else {
+      accumulator[key] = map(obj1, obj2, key);
+    }
 
-  return result;
+    return accumulator;
+  };
+
+  return sortedUniqueKeys.reduce(reducer, {});
 };
 
 export default createDiffTree;
