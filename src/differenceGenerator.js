@@ -20,7 +20,7 @@ const getKeyStatus = (key, obj1, obj2) => {
   return '≠';
 };
 
-const map = (obj1, obj2, key) => {
+const getKeyStatusWithValue = (obj1, obj2, key) => {
   const keyStatus = getKeyStatus(key, obj1, obj2);
 
   switch (keyStatus) {
@@ -52,22 +52,22 @@ const map = (obj1, obj2, key) => {
 
 const createDiffTree = (obj1, obj2) => {
   const uniqueKeys = _.union(_.keys(obj1), _.keys(obj2));
-  const sortedUniqueKeys = Array.from(uniqueKeys).sort();
+  const sortedUniqueKeys = uniqueKeys.sort();
 
-  const reducer = (accumulator, key) => {
+  const getKeyDescription = (accumulator, key) => {
     if (typeof obj1[key] === 'object' && typeof obj2[key] === 'object') {
       accumulator[key] = {
         status: '=',
         children: createDiffTree(obj1[key], obj2[key]),
       };
     } else {
-      accumulator[key] = map(obj1, obj2, key);
+      accumulator[key] = getKeyStatusWithValue(obj1, obj2, key);
     }
 
     return accumulator;
   };
 
-  return sortedUniqueKeys.reduce(reducer, {});
+  return sortedUniqueKeys.reduce(getKeyDescription, {});
 };
 
 export default createDiffTree;

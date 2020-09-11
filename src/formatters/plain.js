@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-const printValue = (value) => {
+const getPlainValue = (value) => {
   switch (typeof value) {
     case 'string':
       return `'${value}'`;
@@ -13,19 +13,19 @@ const printValue = (value) => {
   }
 };
 
-const printTreeInPlain = (tree, previousKeys = '') => {
+const getPlainTree = (tree, previousKeys = '') => {
   let result = '';
 
   const keys = Object.keys(tree);
 
   keys.forEach((key) => {
     if (_.has(tree[key], 'children')) {
-      result += printTreeInPlain(tree[key].children, `${previousKeys + key}.`);
+      result += getPlainTree(tree[key].children, `${previousKeys + key}.`);
       return;
     }
 
     if (tree[key].status === '+') {
-      result += `\nProperty '${previousKeys}${key}' was added with value: ${printValue(
+      result += `\nProperty '${previousKeys}${key}' was added with value: ${getPlainValue(
         tree[key].value2,
       )}`;
       return;
@@ -37,13 +37,13 @@ const printTreeInPlain = (tree, previousKeys = '') => {
     }
 
     if (tree[key].status === '≠') {
-      result += `\nProperty '${previousKeys}${key}' was updated. From ${printValue(
+      result += `\nProperty '${previousKeys}${key}' was updated. From ${getPlainValue(
         tree[key].value1,
-      )} to ${printValue(tree[key].value2)}`;
+      )} to ${getPlainValue(tree[key].value2)}`;
     }
   });
 
   return result;
 };
 
-export default printTreeInPlain;
+export default getPlainTree;

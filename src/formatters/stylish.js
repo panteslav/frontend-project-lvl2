@@ -3,7 +3,7 @@ import _ from 'lodash';
 const BASE_INDENT_SIZE = 4;
 const symbolCompensationIndent = 2;
 
-const printValue = (value, indentSize) => {
+const getStyledValue = (value, indentSize) => {
   if (typeof value !== 'object') {
     return `${value.toString()}\n`;
   }
@@ -15,15 +15,15 @@ const printValue = (value, indentSize) => {
   let result = '';
 
   keys.forEach((key) => {
-    result += `${textIndent}${key}: ${printValue(value[key], indentSize + BASE_INDENT_SIZE)}`;
+    result += `${textIndent}${key}: ${getStyledValue(value[key], indentSize + BASE_INDENT_SIZE)}`;
   });
   return `{\n${result}${bracketIndent}}\n`;
 };
 
-const printEntry = (tree, key, textIndent, indentSize) => {
+const getStyledEntry = (tree, key, textIndent, indentSize) => {
   const currentKey = tree[key];
-  const value1 = _.has(currentKey, 'value1') ? printValue(currentKey.value1, indentSize) : null;
-  const value2 = _.has(currentKey, 'value2') ? printValue(currentKey.value2, indentSize) : null;
+  const value1 = _.has(currentKey, 'value1') ? getStyledValue(currentKey.value1, indentSize) : null;
+  const value2 = _.has(currentKey, 'value2') ? getStyledValue(currentKey.value2, indentSize) : null;
   switch (currentKey.status) {
     case '-':
       return `${textIndent}- ${key}: ${value1}`;
@@ -36,7 +36,7 @@ const printEntry = (tree, key, textIndent, indentSize) => {
   }
 };
 
-const printTree = (tree, indentSize = BASE_INDENT_SIZE) => {
+const getStyledTree = (tree, indentSize = BASE_INDENT_SIZE) => {
   let result = '';
   const keys = Object.keys(tree);
   const bracketIndent = _.repeat(' ', indentSize - BASE_INDENT_SIZE);
@@ -47,11 +47,11 @@ const printTree = (tree, indentSize = BASE_INDENT_SIZE) => {
     const currentIndentSize = indentSize + BASE_INDENT_SIZE;
 
     if (_.has(currentKey, 'children')) {
-      result += `${textIndent}  ${key}: ${printTree(currentKey.children, currentIndentSize)}`;
-    } else result += printEntry(tree, key, textIndent, currentIndentSize);
+      result += `${textIndent}  ${key}: ${getStyledTree(currentKey.children, currentIndentSize)}`;
+    } else result += getStyledEntry(tree, key, textIndent, currentIndentSize);
   });
 
   return `{\n${result}${bracketIndent}}\n`;
 };
 
-export default printTree;
+export default getStyledTree;
