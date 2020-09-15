@@ -2,7 +2,7 @@ import formatStylish from './stylish.js';
 import formatPlain from './plain.js';
 import formatJSON from './json.js';
 
-const selectFormatter = (format) => {
+const getFormatterFunction = (format) => {
   switch (format) {
     case 'stylish':
       return formatStylish;
@@ -17,4 +17,4 @@ const selectFormatter = (format) => {
   }
 };
 
-export default selectFormatter;
+export default getFormatterFunction;

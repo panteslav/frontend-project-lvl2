@@ -1,3 +1,3 @@
-const printTree = (tree) => tree;
+const getJSONTree = (tree) => tree;
 
-export default printTree;
+export default getJSONTree;

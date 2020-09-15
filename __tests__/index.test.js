@@ -1,15 +1,6 @@
 import path from 'path';
 import gendiff from '../src/index.js';
 
-const flatResult = `{
-  - follow: false
-    host: hexlet.io
-  - proxy: 123.234.53.22
-  - timeout: 50
-  + timeout: 20
-  + verbose: true
-}
-`;
 const nestedPlainResult = `
 Property 'common.follow' was added with value: false
 Property 'common.setting2' was removed
@@ -171,23 +162,6 @@ const nestedJSONResult = {
 };
 
 const getFilePath = (fileName) => path.join(__dirname, '..', '__fixtures__', fileName);
-
-describe('flat files tests', () => {
-  const flatJSONPath1 = getFilePath('flat1.json');
-  const flatJSONPath2 = getFilePath('flat2.json');
-  const flatYMLPath1 = getFilePath('flat1.yml');
-  const flatYMLPath2 = getFilePath('flat2.yml');
-  const flatINIPath1 = getFilePath('flat1.yml');
-  const flatINIPath2 = getFilePath('flat2.yml');
-
-  test.each([
-    [flatJSONPath1, flatJSONPath2],
-    [flatYMLPath1, flatYMLPath2],
-    [flatINIPath1, flatINIPath2],
-  ])('flat files test №%#', (flatPath1, flatPath2) => {
-    expect(gendiff(flatPath1, flatPath2)).toEqual(flatResult);
-  });
-});
 
 describe('nested files tests', () => {
   const nestedPath1 = getFilePath('nested1.json');
