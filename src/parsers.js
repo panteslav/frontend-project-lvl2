@@ -17,6 +17,6 @@ export default (extension, data) => {
       return ini.parse(data);
 
     default:
-      throw new Error('Unsupported file extension');
+      throw new Error(`Unsupported file extension: ${extension}!`);
   }
 };
