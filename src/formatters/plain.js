@@ -19,27 +19,34 @@ const getPlainTree = (tree, previousKeys = '') => {
   const keys = Object.keys(tree);
 
   keys.forEach((key) => {
-    if (_.has(tree[key], 'children')) {
-      result += getPlainTree(tree[key].children, `${previousKeys + key}.`);
-      return;
-    }
+    const currentKey = tree[key];
 
-    if (tree[key].status === '+') {
-      result += `\nProperty '${previousKeys}${key}' was added with value: ${getPlainValue(
-        tree[key].value2,
-      )}`;
-      return;
-    }
+    switch (currentKey.status) {
+      case 'complex':
+        result += getPlainTree(currentKey.children, `${previousKeys + key}.`);
+        break;
 
-    if (tree[key].status === '-') {
-      result += `\nProperty '${previousKeys}${key}' was removed`;
-      return;
-    }
+      case 'added':
+        result += `\nProperty '${previousKeys}${key}' was added with value: ${getPlainValue(
+          currentKey.value2,
+        )}`;
+        break;
 
-    if (tree[key].status === '≠') {
-      result += `\nProperty '${previousKeys}${key}' was updated. From ${getPlainValue(
-        tree[key].value1,
-      )} to ${getPlainValue(tree[key].value2)}`;
+      case 'removed':
+        result += `\nProperty '${previousKeys}${key}' was removed`;
+        break;
+
+      case 'modified':
+        result += `\nProperty '${previousKeys}${key}' was updated. From ${getPlainValue(
+          currentKey.value1,
+        )} to ${getPlainValue(currentKey.value2)}`;
+        break;
+
+      case 'equal':
+        break;
+
+      default:
+        throw new Error(`unknown key status ${currentKey.status} of ${currentKey} key!`);
     }
   });
 

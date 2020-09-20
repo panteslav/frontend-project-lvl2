@@ -25,11 +25,11 @@ const getStyledEntry = (tree, key, textIndent, indentSize) => {
   const value1 = _.has(currentKey, 'value1') ? getStyledValue(currentKey.value1, indentSize) : null;
   const value2 = _.has(currentKey, 'value2') ? getStyledValue(currentKey.value2, indentSize) : null;
   switch (currentKey.status) {
-    case '-':
+    case 'removed':
       return `${textIndent}- ${key}: ${value1}`;
-    case '+':
+    case 'added':
       return `${textIndent}+ ${key}: ${value2}`;
-    case '=':
+    case 'equal':
       return `${textIndent}  ${key}: ${value1}`;
     default:
       return `${textIndent}- ${key}: ${value1}${textIndent}+ ${key}: ${value2}`;
@@ -46,7 +46,7 @@ const getStyledTree = (tree, indentSize = BASE_INDENT_SIZE) => {
     const currentKey = tree[key];
     const currentIndentSize = indentSize + BASE_INDENT_SIZE;
 
-    if (_.has(currentKey, 'children')) {
+    if (currentKey.status === 'complex') {
       result += `${textIndent}  ${key}: ${getStyledTree(currentKey.children, currentIndentSize)}`;
     } else result += getStyledEntry(tree, key, textIndent, currentIndentSize);
   });
