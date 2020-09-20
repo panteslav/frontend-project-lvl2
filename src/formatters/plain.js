@@ -1,5 +1,3 @@
-import _ from 'lodash';
-
 const getPlainValue = (value) => {
   switch (typeof value) {
     case 'string':
