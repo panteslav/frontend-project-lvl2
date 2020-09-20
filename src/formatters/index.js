@@ -13,7 +13,7 @@ const getFormatterFunction = (format) => {
       return formatJSON;
 
     default:
-      throw new Error('Unsupported formatFunction option');
+      throw new Error(`Unsupported formatFunction option: ${format}`);
   }
 };
 
