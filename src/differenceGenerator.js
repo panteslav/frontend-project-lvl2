@@ -5,14 +5,6 @@ const createDiffTree = (obj1, obj2) => {
   const result = {};
 
   sortedUniqueKeys.forEach((key) => {
-    if (typeof obj1[key] === 'object' && typeof obj2[key] === 'object') {
-      result[key] = {
-        status: 'complex',
-        children: createDiffTree(obj1[key], obj2[key]),
-      };
-      return;
-    }
-
     if (_.has(obj1, key) && !_.has(obj2, key)) {
       result[key] = {
         status: 'removed',
@@ -25,6 +17,14 @@ const createDiffTree = (obj1, obj2) => {
       result[key] = {
         status: 'added',
         value2: obj2[key],
+      };
+      return;
+    }
+
+    if (typeof obj1[key] === 'object' && typeof obj2[key] === 'object') {
+      result[key] = {
+        status: 'complex',
+        children: createDiffTree(obj1[key], obj2[key]),
       };
       return;
     }
