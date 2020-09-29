@@ -5,18 +5,18 @@ const createDiffTree = (obj1, obj2) => {
   const result = {};
 
   sortedUniqueKeys.forEach((key) => {
-    if (_.has(obj1, key) && !_.has(obj2, key)) {
+    if (!_.has(obj1, key)) {
       result[key] = {
-        status: 'removed',
-        value1: obj1[key],
+        status: 'added',
+        value2: obj2[key],
       };
       return;
     }
 
-    if (!_.has(obj1, key) && _.has(obj2, key)) {
+    if (!_.has(obj2, key)) {
       result[key] = {
-        status: 'added',
-        value2: obj2[key],
+        status: 'removed',
+        value1: obj1[key],
       };
       return;
     }
