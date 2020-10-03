@@ -4,7 +4,7 @@ const BASE_INDENT_SIZE = 4;
 const symbolCompensationIndent = 2;
 
 const getStyledValue = (value, indentSize) => {
-  if (typeof value !== 'object') {
+  if (!_.isObject(value)) {
     return `${value.toString()}\n`;
   }
 
@@ -20,11 +20,13 @@ const getStyledValue = (value, indentSize) => {
   return `{\n${result}${bracketIndent}}\n`;
 };
 
-const getStyledEntry = (tree, key, textIndent, indentSize) => {
-  const currentKey = tree[key];
-  const value1 = _.has(currentKey, 'value1') ? getStyledValue(currentKey.value1, indentSize) : null;
-  const value2 = _.has(currentKey, 'value2') ? getStyledValue(currentKey.value2, indentSize) : null;
-  switch (currentKey.status) {
+const getStyledEntry = (entryData, textIndent, indentSize) => {
+  const { key, status } = entryData;
+
+  const value1 = _.has(entryData, 'value1') ? getStyledValue(entryData.value1, indentSize) : null;
+  const value2 = _.has(entryData, 'value2') ? getStyledValue(entryData.value2, indentSize) : null;
+
+  switch (status) {
     case 'removed':
       return `${textIndent}- ${key}: ${value1}`;
     case 'added':
@@ -38,17 +40,17 @@ const getStyledEntry = (tree, key, textIndent, indentSize) => {
 
 const getStyledTree = (tree, indentSize = BASE_INDENT_SIZE) => {
   let result = '';
-  const keys = Object.keys(tree);
   const bracketIndent = _.repeat(' ', indentSize - BASE_INDENT_SIZE);
   const textIndent = _.repeat(' ', indentSize - symbolCompensationIndent);
 
-  keys.forEach((key) => {
-    const currentKey = tree[key];
+  tree.forEach((entryData) => {
     const currentIndentSize = indentSize + BASE_INDENT_SIZE;
-
-    if (currentKey.status === 'complex') {
-      result += `${textIndent}  ${key}: ${getStyledTree(currentKey.children, currentIndentSize)}`;
-    } else result += getStyledEntry(tree, key, textIndent, currentIndentSize);
+    if (entryData.status === 'complex') {
+      result += `${textIndent}  ${entryData.key}: ${getStyledTree(
+        entryData.children,
+        currentIndentSize,
+      )}`;
+    } else result += getStyledEntry(entryData, textIndent, currentIndentSize);
   });
 
   return `{\n${result}${bracketIndent}}\n`;

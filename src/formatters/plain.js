@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 const getPlainValue = (value) => {
   switch (typeof value) {
     case 'string':
@@ -11,43 +13,38 @@ const getPlainValue = (value) => {
   }
 };
 
+const filterEqualEntriesOut = (entry) => entry.status !== 'equal';
+
 const getPlainTree = (tree, previousKeys = '') => {
-  let result = '';
-
-  const keys = Object.keys(tree);
-
-  keys.forEach((key) => {
-    const currentKey = tree[key];
-
-    switch (currentKey.status) {
+  const strings = tree.filter(filterEqualEntriesOut).map((entryData) => {
+    switch (entryData.status) {
       case 'complex':
-        result += getPlainTree(currentKey.children, `${previousKeys + key}.`);
-        break;
+        return getPlainTree(entryData.children, `${previousKeys + entryData.key}.`);
 
       case 'added':
-        result += `\nProperty '${previousKeys}${key}' was added with value: ${getPlainValue(
-          currentKey.value2,
+        return `Property '${previousKeys}${entryData.key}' was added with value: ${getPlainValue(
+          entryData.value2,
         )}`;
-        break;
 
       case 'removed':
-        result += `\nProperty '${previousKeys}${key}' was removed`;
-        break;
+        return `Property '${previousKeys}${entryData.key}' was removed`;
 
       case 'modified':
-        result += `\nProperty '${previousKeys}${key}' was updated. From ${getPlainValue(
-          currentKey.value1,
-        )} to ${getPlainValue(currentKey.value2)}`;
-        break;
+        return `Property '${previousKeys}${entryData.key}' was updated. From ${getPlainValue(
+          entryData.value1,
+        )} to ${getPlainValue(entryData.value2)}`;
 
       case 'equal':
         break;
 
       default:
-        throw new Error(`unknown key status ${currentKey.status} of ${currentKey} key!`);
+        throw new Error(`unknown key status ${entryData.status} of ${entryData.key} key!`);
     }
+
+    return null;
   });
 
+  const result = _.flattenDeep(strings).join('\n');
   return result;
 };
 
