@@ -1,23 +1,23 @@
 import _ from 'lodash';
 
 const BASE_INDENT_SIZE = 4;
-const symbolCompensationIndent = 2;
+const SYMBOL_COMPENSATION_INDENT_SIZE = 2;
+
+const getStyledResult = (result, bracketIndent) => `{\n${result.join('\n')}\n${bracketIndent}}`;
 
 const getStyledValue = (value, indentSize) => {
   if (!_.isObject(value)) {
-    return `${value.toString()}\n`;
+    return `${value.toString()}`;
   }
 
   const keys = Object.keys(value);
   const bracketIndent = _.repeat(' ', indentSize - BASE_INDENT_SIZE);
   const textIndent = _.repeat(' ', indentSize);
 
-  let result = '';
-
-  keys.forEach((key) => {
-    result += `${textIndent}${key}: ${getStyledValue(value[key], indentSize + BASE_INDENT_SIZE)}`;
-  });
-  return `{\n${result}${bracketIndent}}\n`;
+  const result = keys.map(
+    (key) => `${textIndent}${key}: ${getStyledValue(value[key], indentSize + BASE_INDENT_SIZE)}`,
+  );
+  return getStyledResult(result, bracketIndent);
 };
 
 const getStyledEntry = (entryData, textIndent, indentSize) => {
@@ -34,26 +34,26 @@ const getStyledEntry = (entryData, textIndent, indentSize) => {
     case 'equal':
       return `${textIndent}  ${key}: ${value1}`;
     default:
-      return `${textIndent}- ${key}: ${value1}${textIndent}+ ${key}: ${value2}`;
+      return `${textIndent}- ${key}: ${value1}\n${textIndent}+ ${key}: ${value2}`;
   }
 };
 
 const getStyledTree = (tree, indentSize = BASE_INDENT_SIZE) => {
-  let result = '';
   const bracketIndent = _.repeat(' ', indentSize - BASE_INDENT_SIZE);
-  const textIndent = _.repeat(' ', indentSize - symbolCompensationIndent);
+  const textIndent = _.repeat(' ', indentSize - SYMBOL_COMPENSATION_INDENT_SIZE);
 
-  tree.forEach((entryData) => {
+  const result = tree.map((entryData) => {
     const currentIndentSize = indentSize + BASE_INDENT_SIZE;
     if (entryData.status === 'complex') {
-      result += `${textIndent}  ${entryData.key}: ${getStyledTree(
+      return `${textIndent}  ${entryData.key}: ${getStyledTree(
         entryData.children,
         currentIndentSize,
       )}`;
-    } else result += getStyledEntry(entryData, textIndent, currentIndentSize);
+    }
+    return getStyledEntry(entryData, textIndent, currentIndentSize);
   });
 
-  return `{\n${result}${bracketIndent}}\n`;
+  return getStyledResult(result, bracketIndent);
 };
 
 export default getStyledTree;
