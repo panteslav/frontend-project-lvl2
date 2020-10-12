@@ -33,14 +33,16 @@ const getStyledEntry = (entryData, textIndent, indentSize) => {
       return `${textIndent}+ ${key}: ${value2}`;
     case 'equal':
       return `${textIndent}  ${key}: ${value1}`;
-    default:
+    case 'modified':
       return `${textIndent}- ${key}: ${value1}\n${textIndent}+ ${key}: ${value2}`;
+    default:
+      throw new Error(`unknown value status: ${status}`);
   }
 };
 
 const getStyledTree = (tree, indentSize = BASE_INDENT_SIZE) => {
-  const bracketIndent = _.repeat(' ', indentSize - BASE_INDENT_SIZE);
-  const textIndent = _.repeat(' ', indentSize - SYMBOL_COMPENSATION_INDENT_SIZE);
+  const bracketIndent = ' '.repeat(indentSize - BASE_INDENT_SIZE);
+  const textIndent = ' '.repeat(indentSize - SYMBOL_COMPENSATION_INDENT_SIZE);
 
   const result = tree.map((entryData) => {
     const currentIndentSize = indentSize + BASE_INDENT_SIZE;
