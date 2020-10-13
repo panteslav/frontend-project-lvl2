@@ -16,35 +16,43 @@ const getPlainValue = (value) => {
 const filterEqualEntriesOut = (entry) => entry.status !== 'equal';
 
 const getPlainTree = (tree, previousKeys = '') => {
-  const strings = tree.filter(filterEqualEntriesOut).map((entryData) => {
-    switch (entryData.status) {
+  const lines = tree.filter(filterEqualEntriesOut).map((entryData) => {
+    const {
+      key,
+      status,
+      children,
+      value1,
+      value2,
+    } = entryData;
+
+    switch (status) {
       case 'complex':
-        return getPlainTree(entryData.children, `${previousKeys + entryData.key}.`);
+        return getPlainTree(children, `${previousKeys + key}.`);
 
       case 'added':
-        return `Property '${previousKeys}${entryData.key}' was added with value: ${getPlainValue(
-          entryData.value2,
+        return `Property '${previousKeys}${key}' was added with value: ${getPlainValue(
+          value2,
         )}`;
 
       case 'removed':
-        return `Property '${previousKeys}${entryData.key}' was removed`;
+        return `Property '${previousKeys}${key}' was removed`;
 
       case 'modified':
-        return `Property '${previousKeys}${entryData.key}' was updated. From ${getPlainValue(
-          entryData.value1,
-        )} to ${getPlainValue(entryData.value2)}`;
+        return `Property '${previousKeys}${key}' was updated. From ${getPlainValue(
+          value1,
+        )} to ${getPlainValue(value2)}`;
 
       case 'equal':
         break;
 
       default:
-        throw new Error(`unknown key status ${entryData.status} of ${entryData.key} key!`);
+        throw new Error(`unknown key status ${status} of ${key} key!`);
     }
 
     return null;
   });
 
-  const result = _.flattenDeep(strings).join('\n');
+  const result = lines.flat(Infinity).join('\n');
   return result;
 };
 
